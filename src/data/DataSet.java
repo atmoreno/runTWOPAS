@@ -6,10 +6,9 @@ import java.util.Map;
 
 public class DataSet {
 
-    private final Map<String, Map<Integer, Integer>> passingLaneLengths = new LinkedHashMap<>();
-    private final Map<String, Map<String, Map <Integer, Integer>>> transitionLengths = new LinkedHashMap<>();
-    private final Map<String, Map<Integer, Integer>> intersectionLengths = new LinkedHashMap<>();
-    private final Map<String, Map<String, Float>> transitionProbability = new LinkedHashMap<>();
+    private final Map<String, Map<Integer, Float>> passingLaneLengths = new LinkedHashMap<>();
+    private final Map<String, Map<TransitionType, Map<Integer, Float>>> transitionLengths = new LinkedHashMap<>();
+    private final Map<String, Map<String, Map<TransitionType, Float>>> transitionProbability = new LinkedHashMap<>();
     private String country;
 
     private Map<Integer, Geometry> geometryMap = new LinkedHashMap<>();
@@ -18,17 +17,13 @@ public class DataSet {
     private Map<Integer, Simulation> simulationMap = new LinkedHashMap<>();
 
 
-    public Map<String, Map<Integer, Integer>> getPassingLaneLengths() {
+    public Map<String, Map<Integer, Float>> getPassingLaneLengths() {
         return passingLaneLengths;
     }
-    public Map<String, Map<String, Map<Integer, Integer>>> getTransitionLengths() {
+    public Map<String, Map<TransitionType, Map<Integer, Float>>> getTransitionLengths() {
         return transitionLengths;
     }
-    public Map<String, Map<Integer, Integer>> getIntersectionLengths() {
-        return intersectionLengths;
-    }
-
-    public Map<String, Map<String, Float>> getTransitionProbability() {
+    public Map<String, Map<String, Map<TransitionType, Float>>> getTransitionProbability() {
         return transitionProbability;
     }
 

@@ -4,10 +4,6 @@ import java.util.ArrayList;
 public class RunTwopas {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-
-        int linesToRead = 46;   //46, for 1 hour simulations
-                                //22, for 15 minute simulations
-
         BufferedReader inputList = new BufferedReader(new FileReader(args[0]));
         String list = null;
         ArrayList<String> listFiles = new ArrayList<>();
@@ -21,23 +17,16 @@ public class RunTwopas {
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             String line;
-
             System.out.printf("Output of running %s is:", arg);
             System.out.println();
-
             int p = 0;
-            while ((line = br.readLine()) != null & p < linesToRead ) {
+            while ((line = br.readLine()) != null & p < 46) {
                 System.out.println(line);
                 p++;
             }
             br.close();
             process.destroy();
-
             System.out.println();
         }
-
     }
-
-
-
 }

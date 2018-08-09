@@ -35,6 +35,24 @@ public class Resources {
         return properties.getProperty(key).split(",");
     }
 
+    public synchronized int[] getIntArray(String key) {
+        String[] array = properties.getProperty(key).split(",");
+        int[] arrayInt = new int[array.length];
+        for (int i = 0; i < array.length; i++){
+            arrayInt[i] = Integer.parseInt(array[i]);
+        }
+        return arrayInt;
+    }
+
+    public synchronized float[] getFloatArray(String key) {
+        String[] array = properties.getProperty(key).split(",");
+        float[] arrayInt = new float[array.length];
+        for (int i = 0; i < array.length; i++){
+            arrayInt[i] = Float.parseFloat(array[i]);
+        }
+        return arrayInt;
+    }
+
     public synchronized boolean getBoolean(String key) {
         return Boolean.parseBoolean(properties.getProperty(key));
     }

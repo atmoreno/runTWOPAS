@@ -1,7 +1,6 @@
 package scenarioGeneration;
 
 import data.DataSet;
-import input.IntersectionReader;
 import input.PassingLaneReader;
 import input.ProbabilityReader;
 import input.TransitionReader;
@@ -17,7 +16,6 @@ public class Preparation {
     public void run(){
         readPassingLaneDistribution();
         readTransitionDistribution();
-        readIntersectionDistribution();
         readProbabilityTransition();
     }
 
@@ -25,9 +23,6 @@ public class Preparation {
         new ProbabilityReader(dataSet).read();
     }
 
-    private void readIntersectionDistribution() {
-        new IntersectionReader(dataSet).read();
-    }
 
     private void readTransitionDistribution() {
         new TransitionReader(dataSet).read();

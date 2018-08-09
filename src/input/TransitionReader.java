@@ -1,6 +1,7 @@
 package input;
 
 import data.DataSet;
+import data.TransitionType;
 import resources.Properties;
 import resources.Resources;
 
@@ -32,21 +33,21 @@ public class TransitionReader extends CSVReader {
 
     protected void processRecord(String[] record){
         String country = record[countryIndex].replace("\"", "");
-        String type = record[typeIndex].replace("\"","");
+        TransitionType type = TransitionType.valueOf(Integer.parseInt(record[typeIndex]));
         int value = Integer.parseInt(record[valueIndex]);
-        int frequency = Integer.parseInt(record[frequencyIndex]);
+        float frequency = Float.parseFloat(record[frequencyIndex]);
         if (dataSet.getTransitionLengths().containsKey(country)){
             if (dataSet.getTransitionLengths().get(country).containsKey(type)){
                 dataSet.getTransitionLengths().get(country).get(type).put(value, frequency);
             } else {
-                Map<Integer, Integer> map = new LinkedHashMap<>();
+                Map<Integer, Float> map = new LinkedHashMap<>();
                 map.put(value, frequency);
                 dataSet.getTransitionLengths().get(country).put(type, map);
             }
         } else {
-            Map<Integer, Integer> map = new LinkedHashMap<>();
+            Map<Integer, Float> map = new LinkedHashMap<>();
             map.put(value, frequency);
-            Map<String, Map<Integer, Integer>> outerMap = new LinkedHashMap<>();
+            Map<TransitionType, Map<Integer, Float>> outerMap = new LinkedHashMap<>();
             outerMap.put(type, map);
             dataSet.getTransitionLengths().put(country, outerMap);
         }

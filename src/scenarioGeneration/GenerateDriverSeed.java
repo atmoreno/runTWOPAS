@@ -2,9 +2,6 @@ package scenarioGeneration;
 
 import data.DataSet;
 import data.DriverSeed;
-import data.Traffic;
-import resources.Properties;
-import resources.Resources;
 
 import java.util.Map;
 
@@ -21,7 +18,10 @@ public class GenerateDriverSeed {
 
         for (int i = 0; i < 1; i++) {
 
-            DriverSeed dd = new DriverSeed(i, 100 * i);
+            int[] km = new int[2];
+            km[0] = 1;
+            km[1] = 2;
+            DriverSeed dd = new DriverSeed(i, 100 * i, 2, km);
             dataSet.getDriverSeedMap().put(i, dd);
         }
 

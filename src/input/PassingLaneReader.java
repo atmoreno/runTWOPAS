@@ -28,11 +28,11 @@ public class PassingLaneReader extends CSVReader {
     protected void processRecord(String[] record){
         String country = record[countryIndex].replace("\"", "");
         int value = Integer.parseInt(record[valueIndex]);
-        int frequency = Integer.parseInt(record[frequencyIndex]);
+        float frequency = Float.parseFloat(record[frequencyIndex]);
         if (dataSet.getPassingLaneLengths().containsKey(country)){
             dataSet.getPassingLaneLengths().get(country).put(value, frequency);
         } else {
-            Map<Integer, Integer> map = new LinkedHashMap<>();
+            Map<Integer, Float> map = new LinkedHashMap<>();
             map.put(value, frequency);
             dataSet.getPassingLaneLengths().put(country, map);
         }

@@ -20,9 +20,9 @@ public class GenerateTraffic {
 
     public void run() {
 
-        passingLanes = dataSet.getPassingLaneLengths().get(dataSet.getCountry());
+        //passingLanes = dataSet.getPassingLaneLengths().get(dataSet.getCountry());
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 1; i++) {
 
             Traffic tt = new Traffic(i, 10 * i);
             dataSet.getTrafficMap().put(i, tt);

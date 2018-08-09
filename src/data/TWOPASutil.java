@@ -1,5 +1,6 @@
 package data;
 
+import java.io.*;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Random;
@@ -43,6 +44,29 @@ public class TWOPASutil {
             sm += value.doubleValue();
         }
         return sm;
+    }
+
+    public static PrintWriter openFileForSequentialWriting(String fileName, boolean appendFile) {
+        // open file and return PrintWriter object
+
+        File outputFile = new File(fileName);
+        if(outputFile.getParent() != null) {
+            File parent = outputFile.getParentFile();
+            parent.mkdirs();
+        }
+
+        try {
+            FileWriter fw = new FileWriter(outputFile, appendFile);
+            BufferedWriter bw = new BufferedWriter(fw);
+            return new PrintWriter(bw);
+        } catch (IOException e) {
+            System.out.println("Could not open file <" + fileName + ">.");
+            return null;
+        }
+    }
+
+    public static float convertmToFeet(float m){
+        return m * 3.28084f;
     }
 
 }

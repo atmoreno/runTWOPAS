@@ -1,6 +1,7 @@
 package input;
 
 import data.DataSet;
+import data.TransitionType;
 import resources.Properties;
 import resources.Resources;
 
@@ -33,13 +34,21 @@ public class ProbabilityReader extends CSVReader {
         float probCritical = Float.parseFloat(record[criticalIndex]);
         float probNonCritical = Float.parseFloat(record[noncriticalIndex]);
         if (dataSet.getTransitionProbability().containsKey(country)){
-            dataSet.getTransitionProbability().get(country).put("critical", probCritical);
-            dataSet.getTransitionProbability().get(country).put("noncritical", probNonCritical);
+            dataSet.getTransitionProbability().get(country).get("critical").put(TransitionType.CRITICAL, probCritical);
+            dataSet.getTransitionProbability().get(country).get("critical").put(TransitionType.INTERSECTION, 1 - probCritical);
+            dataSet.getTransitionProbability().get(country).get("noncritical").put(TransitionType.NONCRITICAL, probNonCritical);
+            dataSet.getTransitionProbability().get(country).get("noncritical").put(TransitionType.INTERSECTION, 1 - probNonCritical);
         } else {
-            Map<String, Float> map = new LinkedHashMap<>();
-            map.put("critical", probCritical);
-            map.put("noncritical", probNonCritical);
-            dataSet.getTransitionProbability().put(country, map);
+            Map<TransitionType, Float> mapC = new LinkedHashMap<>();
+            mapC.put(TransitionType.CRITICAL, probCritical);
+            mapC.put(TransitionType.INTERSECTION, 1 - probCritical);
+            Map<TransitionType, Float> mapNC = new LinkedHashMap<>();
+            mapNC.put(TransitionType.NONCRITICAL, probNonCritical);
+            mapNC.put(TransitionType.INTERSECTION, 1 - probNonCritical);
+            Map<String, Map<TransitionType, Float>> outerMap = new LinkedHashMap<>();
+            outerMap.put("critical", mapC);
+            outerMap.put("noncritical", mapNC);
+            dataSet.getTransitionProbability().put(country, outerMap);
         }
 
     }

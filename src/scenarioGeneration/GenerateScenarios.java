@@ -16,22 +16,15 @@ public class GenerateScenarios {
 
     public void run() {
         readInputs();
-        for (String country : Resources.INSTANCE.getArray(Properties.LIST_OF_COUNTRIES)) {
-            dataSet.setCountry(country);
-            generateGeometry();
-            generateTraffic();
-            generateDriverSeed();
-            assignSimulation();
-        }
+        generateGeometry();
+        generateTraffic();
+        generateDriverSeed();
+        assignSimulation();
+
 
     }
 
 
-
-
-    private void generateDriverSeed() {
-        new GenerateDriverSeed(dataSet).run();
-    }
 
     private void assignSimulation() {
         int counter = 0;
@@ -50,14 +43,15 @@ public class GenerateScenarios {
         new Preparation(dataSet).run();
     }
 
-
-    private void generateTraffic() {
-        new GenerateTraffic(dataSet).run();
-    }
-
     private void generateGeometry (){
         new GenerateGeometry(dataSet).run();
     }
 
+    private void generateDriverSeed() {
+        new GenerateDriverSeed(dataSet).run();
+    }
 
+    private void generateTraffic() {
+        new GenerateTraffic(dataSet).run();
+    }
 }
