@@ -2,13 +2,13 @@ package scenarioGeneration;
 
 import data.DataSet;
 import data.DriverSeed;
-
-import java.util.Map;
+import data.TWOPASutil;
+import resources.Properties;
+import resources.Resources;
 
 public class GenerateDriverSeed {
 
     private final DataSet dataSet;
-    private Map<Integer, Integer> passingLanes;
 
     public GenerateDriverSeed(DataSet dataSet) {
         this.dataSet = dataSet;
@@ -16,14 +16,15 @@ public class GenerateDriverSeed {
 
     public void run() {
 
-        for (int i = 0; i < 1; i++) {
-
-            int[] km = new int[2];
-            km[0] = 1;
-            km[1] = 2;
-            DriverSeed dd = new DriverSeed(i, 100 * i, 2, km);
-            dataSet.getDriverSeedMap().put(i, dd);
+        int count = 0;
+        for (int seed = 0; seed < Resources.INSTANCE.getInt(Properties.NUMBER_OF_SEEDS); seed++) {
+            int selectedDriverBehavior = TWOPASutil.selectFromUniformDistribution(dataSet.getcorBKMPMap().size());
+            int selectedRandomSeed = TWOPASutil.selectFromUniformDistribution(dataSet.getTwopasRandomSeeds().size());
+            DriverSeed dd = new DriverSeed(count++, dataSet.getPrecMap().get(selectedDriverBehavior),
+                    dataSet.getcorBKMPMap().get(selectedDriverBehavior), dataSet.getTwopasRandomSeeds().get(selectedRandomSeed));
+            dataSet.getDriverSeedMap().put(count, dd);
         }
-
     }
+
+
 }

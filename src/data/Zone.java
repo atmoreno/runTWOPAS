@@ -7,15 +7,17 @@ public class Zone {
     private final float length;
     private final Direction direction;
     private final PassingCondition passing;
+    private final ZoneCondition conditionType;
     private int sequence;
 
-    public Zone(int zoneId, int sequence,Direction direction, float start, float length, PassingCondition passing) {
+    public Zone(int zoneId, int sequence,Direction direction, float start, float length, PassingCondition passing, ZoneCondition conditionType) {
         this.zoneId = zoneId;
         this.sequence = sequence;
         this.start = start;
         this.length = length;
         this.direction = direction;
         this.passing = passing;
+        this.conditionType = conditionType;
     }
 
     public int getZoneId() {
@@ -44,5 +46,9 @@ public class Zone {
 
     public void setSequence(int sequence) {
         this.sequence = sequence;
+    }
+
+    public ZoneCondition getZoneCondition() {
+        return conditionType;
     }
 }

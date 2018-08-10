@@ -1,17 +1,19 @@
 package data;
 
+import java.util.Map;
+
 public class DriverSeed {
 
     private final int driverSeedId;
     private final float prec;
-    private final float corr;
-    private final int[] kmbp;
+    private final String corBKMP;
+    private final String randomSeed;
 
-    public DriverSeed(int driverSeedId, float prec, float corr, int[] kmbp) {
+    public DriverSeed(int driverSeedId, float prec, String corBKMP,String randomSeed) {
         this.driverSeedId = driverSeedId;
         this.prec = prec;
-        this.corr = corr;
-        this.kmbp = kmbp;
+        this.corBKMP = corBKMP;
+        this.randomSeed = randomSeed;
     }
 
     public int getDriverSeedId() {
@@ -22,11 +24,11 @@ public class DriverSeed {
         return prec;
     }
 
-    public float getCorr() {
-        return corr;
+    public String getCorBKMP() {
+        return corBKMP;
     }
 
-    public int[] getKmbp() {
-        return kmbp;
+    public String getRandomSeed() {
+        return randomSeed;
     }
 }

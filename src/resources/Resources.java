@@ -39,7 +39,7 @@ public class Resources {
         String[] array = properties.getProperty(key).split(",");
         int[] arrayInt = new int[array.length];
         for (int i = 0; i < array.length; i++){
-            arrayInt[i] = Integer.parseInt(array[i]);
+            arrayInt[i] = Integer.parseInt(array[i].replace(" ",""));
         }
         return arrayInt;
     }

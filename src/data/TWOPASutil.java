@@ -65,8 +65,123 @@ public class TWOPASutil {
         }
     }
 
-    public static float convertmToFeet(float m){
-        return m * 3.28084f;
+    public static float convertMetersToFeet(float value){
+        return (float) value * 3.28084f;
     }
 
+
+    public static float convertMetersToFeet(double value){
+        return (float) value * 3.28084f;
+    }
+
+
+    public static float randommizeFlow(int value, int step){
+
+        float randomValue;
+        if (rand.nextFloat() < 0.5)
+            randomValue = value + rand.nextFloat() * step / 2;
+        else {
+            randomValue = value - rand.nextFloat() * step / 2;
+        }
+
+        return randomValue;
+    }
+
+    public static float roundToTwoDecimals(float value){
+        return (float) Math.round(value * 100) / 100;
+    }
+
+    public static String addBlanksToString(int number){
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < number; i++) {
+            builder.append(" ");
+        }
+        return builder.toString();
+    }
+
+    public static String addZerosToString(int number){
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < number; i++) {
+            builder.append("0");
+        }
+        return builder.toString();
+    }
+
+    public static String printWithBlanks(int characters, int number){
+        int numberBlanks = characters - Integer.toString(number).length();
+        String line = addBlanksToString(numberBlanks) + number;
+        if (numberBlanks < 0){
+            throw new RuntimeException("The number exceeds the characters maximum " + number);
+        }
+        return line;
+    }
+
+    public static String printWithBlanks(int characters, int number, int decimals){
+        int numberBlanks = characters - Integer.toString(number).length() - decimals - 1;
+        String line = addBlanksToString(numberBlanks) + number + "." + addZerosToString(decimals);
+        if (numberBlanks < 0){
+            throw new RuntimeException("The number exceeds the characters maximum " + number);
+        }
+        return line;
+    }
+
+    public static String printWithBlanks(int characters, float number){
+        int numberBlanks = characters - Float.toString(number).length();
+        String line = addBlanksToString(numberBlanks) + number;
+        if (numberBlanks < 0){
+            throw new RuntimeException("The number exceeds the characters maximum " + number);
+        }
+        return line;
+    }
+
+    public static String printWithBlanks(int characters, float number, int decimals){
+
+        String numberString = String.format("%." + decimals + "f", number);
+        int numberBlanks = characters - numberString.length();
+        String line;
+        int differenceOnDecimals = decimals - numberString.split("\\.")[1].length();
+        if (differenceOnDecimals == 0){
+            line = addBlanksToString(numberBlanks) + numberString;
+        } else {
+            numberBlanks = numberBlanks - differenceOnDecimals;
+            line = addBlanksToString(numberBlanks) + numberString + addZerosToString(differenceOnDecimals);
+        }
+        if (numberBlanks < 0){
+            throw new RuntimeException("The number exceeds the characters maximum " + number);
+        }
+        return line;
+    }
+
+    public static String printWithBlanks(int characters, double number, int decimals){
+
+        String numberString = String.format("%." + decimals + "f", number);
+        int numberBlanks = characters - numberString.length();
+        String line;
+        int differenceOnDecimals = decimals - numberString.split("\\.")[1].length();
+        if (differenceOnDecimals == 0){
+            line = addBlanksToString(numberBlanks) + numberString;
+        } else {
+            numberBlanks = numberBlanks - differenceOnDecimals;
+            line = addBlanksToString(numberBlanks) + numberString + addZerosToString(differenceOnDecimals);
+        }
+        if (numberBlanks < 0){
+            throw new RuntimeException("The number exceeds the characters maximum " + number);
+        }
+        return line;
+    }
+
+
+    public static int selectFromUniformDistribution(int size){
+
+        double selectedWeight = rand.nextDouble() * size;
+        double select = 0;
+        for (int index = 0; index < size; index++){
+            if (index > selectedWeight){
+                return index + 1;
+            }
+        }
+
+        return size;
+
+    }
 }
