@@ -9,8 +9,9 @@ public class Traffic {
     private final int directionalSplit;
     private final float directionalPercentFollowers;
     private final float opposingPercentFollowers;
+    private final int directionalTrafficClass;
 
-    public Traffic(int trafficId, int directionalTraffic, int opposingTraffic, int percentTrucks, int directionalSplit, float directionalPercentFollowers, float opposingPercentFollowers) {
+    public Traffic(int trafficId, int directionalTrafficClass, int directionalTraffic, int opposingTraffic, int percentTrucks, int directionalSplit, float directionalPercentFollowers, float opposingPercentFollowers) {
         this.trafficId = trafficId;
         this.directionalTraffic = directionalTraffic;
         this.opposingTraffic = opposingTraffic;
@@ -18,6 +19,7 @@ public class Traffic {
         this.directionalSplit = directionalSplit;
         this.directionalPercentFollowers = directionalPercentFollowers;
         this.opposingPercentFollowers = opposingPercentFollowers;
+        this.directionalTrafficClass = directionalTrafficClass;
     }
 
     public int getTrafficId() {
@@ -46,5 +48,9 @@ public class Traffic {
 
     public float getOpposingPercentFollowers() {
         return opposingPercentFollowers;
+    }
+
+    public int getDirectionalTrafficClass() {
+        return directionalTrafficClass;
     }
 }

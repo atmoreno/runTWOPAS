@@ -26,7 +26,7 @@ public class GenerateTraffic {
                     int opposingTraffic = (int) directionalTraffic * (100 - directionalSplit) / directionalSplit;
                     float directionalPercentFollowers = obtainEntryPercentFollowers(directionalTraffic);
                     float opposingPercentFollowers = obtainEntryPercentFollowers(opposingTraffic);
-                    Traffic tt = new Traffic(count++, directionalTraffic, opposingTraffic, percentTrucks,
+                    Traffic tt = new Traffic(count++, traffic, directionalTraffic, opposingTraffic, percentTrucks,
                             directionalSplit, directionalPercentFollowers, opposingPercentFollowers);
                     dataSet.getTrafficMap().put(count, tt);
                 }

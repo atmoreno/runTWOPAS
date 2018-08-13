@@ -4,6 +4,8 @@ import resources.Properties;
 import resources.Resources;
 
 import java.io.PrintWriter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Simulation {
 
@@ -24,9 +26,10 @@ public class Simulation {
 
         System.out.println("    " + this.simulationId + ": writing INP file");
         String file = Resources.INSTANCE.getString(Properties.BASE_DIRECTORY) + "/" + Resources.INSTANCE.getString(Properties.OUTPUT_DIRECTORY) +
-                this.geometry.getCountry() + "_l" + this.geometry.getLength() +  "_g" + this.geometry.getGeomId() + "_t" +
-                this.traffic.getPercentTrucks()+ "_r" + this.traffic.getDirectionalSplit() + "_v" + this.traffic.getDirectionalSplit() +
-                "_s" + this.driverSeed.getDriverSeedId() + ".INP";
+                "G" + this.geometry.getGeomId() + "T" + this.traffic.getTrafficId() + "D" +  this.driverSeed.getDriverSeedId() + "_" +
+                this.geometry.getCountry() + "l" + this.geometry.getLength() + "p" + this.geometry.getGeomId() +
+                "t" + this.traffic.getPercentTrucks()+ "r" + this.traffic.getDirectionalSplit() + "v" + this.traffic.getDirectionalTrafficClass() +
+                ".INP";
         listWriter.println(file);
         PrintWriter pwh = TWOPASutil.openFileForSequentialWriting(file, false);
 
@@ -46,10 +49,10 @@ public class Simulation {
         pwh.println("9");
         pwh.println(this.driverSeed.getCorBKMP());
         pwh.println(this.driverSeed.getRandomSeed());
-        for (Zone zz : this.geometry.getPassingLanes().get(Direction.ASCENDENT).values()) {
+        for (Zone zz : this.geometry.getPassingConditions().get(Direction.ASCENDENT).values()) {
             pwh.println(writePassingZoneLine(zz));
         }
-        for (Zone zz : this.geometry.getPassingLanes().get(Direction.DESCENDENT).values()) {
+        for (Zone zz : this.geometry.getPassingConditions().get(Direction.DESCENDENT).values()) {
             pwh.println(writePassingZoneLine(zz));
         }
         for (int i = 0; i < 13; i++){
@@ -163,8 +166,8 @@ public class Simulation {
             passingCondition = "      1.00          ";
         }
         record = record +
-                TWOPASutil.printWithBlanks(5,this.geometry.getPassingLanes().get(Direction.ASCENDENT).size()) +
-                TWOPASutil.printWithBlanks(5, this.geometry.getPassingLanes().get(Direction.DESCENDENT).size()) +
+                TWOPASutil.printWithBlanks(5,this.geometry.getPassingConditions().get(Direction.ASCENDENT).size()) +
+                TWOPASutil.printWithBlanks(5, this.geometry.getPassingConditions().get(Direction.DESCENDENT).size()) +
                 TWOPASutil.printWithBlanks(5, zz.getSequence()) +
                 TWOPASutil.printWithBlanks(10, TWOPASutil.convertMetersToFeet(zz.getStart()), 1) +
                 passingCondition;
@@ -224,8 +227,7 @@ public class Simulation {
 
 
     public void printSummary(PrintWriter summaryWriter){
-        //summaryOfScenarios.println("id,inp,out,country,roadLength,geometry,percentTrucks,directionalSplit,randomSeed,directionalVolume,opposingVolume," +
-        //"PF1,PF2,PZ1,PassingLanes1,APL1,PZ2,PassingLanes2,APL2,CriticalTransitions,ACT,NoncriticalTransitions,ANCT,Intersections,AI");
+
         summaryWriter.print(this.simulationId);
         summaryWriter.print(",");
         summaryWriter.print(Resources.INSTANCE.getString(Properties.BASE_DIRECTORY) + "/" + Resources.INSTANCE.getString(Properties.OUTPUT_DIRECTORY) +
@@ -254,12 +256,35 @@ public class Simulation {
         summaryWriter.print(",");
         summaryWriter.print(this.traffic.getOpposingTraffic());
         summaryWriter.print(",");
+        for (Direction direction : Direction.values()){
+            for (ZoneCondition zoneCondition : ZoneCondition.values()){
+                summaryWriter.print(printPassingCharacteristics(direction, zoneCondition));
+            }
+        }
+        //already includes the final comma to separate the next element
         summaryWriter.print(this.traffic.getDirectionalPercentFollowers());
         summaryWriter.print(",");
-        summaryWriter.print(this.traffic.getOpposingPercentFollowers());
-        summaryWriter.print(",");
-        summaryWriter.println(this.geometry.getPassingLanes().size());
-
+        summaryWriter.println(this.traffic.getOpposingPercentFollowers());
     }
+
+    private String printPassingCharacteristics(Direction direction, ZoneCondition zoneCondition){
+        String passing = "";
+        int countZones = 0;
+        int lengthZones = 0;
+        int averageLengthZones = 0;
+        for (Zone zz : this.geometry.getPassingConditions().get(direction).values()){
+            if (zz.getZoneCondition().equals(zoneCondition)){
+                countZones++;
+                lengthZones += zz.getLength();
+            }
+        }
+        if (countZones > 0) {
+            averageLengthZones = (int) lengthZones / countZones;
+        }
+        int percentLength = (int) Math.round(lengthZones / this.geometry.getLength() * 100);
+        passing = percentLength + "," + countZones + "," + lengthZones + "," + averageLengthZones + ",";
+        return passing;
+    }
+
 
 }
