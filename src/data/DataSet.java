@@ -18,6 +18,9 @@ public class DataSet {
     private Map<Integer, DriverSeed> driverSeedMap = new LinkedHashMap<>();
     private Map<Integer, Simulation> simulationMap = new LinkedHashMap<>();
 
+    private final Map<String, Float> outputScenarioMap = new LinkedHashMap<>();
+    private final Map<OutputType, Map<Integer, VariableOutput>> outputVariablesMap = new LinkedHashMap<>();
+    private final Map<OutputType, String> outputTypeCondition = new LinkedHashMap<>();
 
     public Map<String, Map<Integer, Float>> getPassingLaneLengths() {
         return passingLaneLengths;
@@ -81,4 +84,15 @@ public class DataSet {
         return twopasRandomSeeds;
     }
 
+    public Map<String, Float> getOutputScenarioMap() {
+        return outputScenarioMap;
+    }
+
+    public Map<OutputType, Map<Integer, VariableOutput>> getOutputVariablesMap() {
+        return outputVariablesMap;
+    }
+
+    public Map<OutputType, String> getOutputTypeCondition() {
+        return outputTypeCondition;
+    }
 }

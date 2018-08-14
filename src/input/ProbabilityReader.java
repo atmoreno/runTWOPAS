@@ -22,6 +22,8 @@ public class ProbabilityReader extends CSVReader {
 
     public void read(){super.read(Resources.INSTANCE.getString(Properties.TRANSITION_PROBABILITY), ",");}
 
+    public void read(String fileName){}
+
     protected void processHeader(String[] header){
         List<String> headerList = Arrays.asList(header);
         countryIndex = headerList.indexOf("Country");

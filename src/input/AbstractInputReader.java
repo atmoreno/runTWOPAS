@@ -12,4 +12,6 @@ abstract class AbstractInputReader {
 
     public abstract void read();
 
+    public abstract void read(String fileName);
+
 }

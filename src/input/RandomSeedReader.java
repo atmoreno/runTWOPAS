@@ -21,6 +21,8 @@ public class RandomSeedReader extends CSVReader {
 
     public void read(){super.read(Resources.INSTANCE.getString(Properties.RANDOM_SEEDS_CHARACTERISTICS), ",");}
 
+    public void read(String fileName){}
+
     protected void processHeader(String[] header){
         List<String> headerList = Arrays.asList(header);
         id = headerList.indexOf("id");

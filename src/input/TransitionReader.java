@@ -23,6 +23,8 @@ public class TransitionReader extends CSVReader {
 
     public void read(){super.read(Resources.INSTANCE.getString(Properties.TRANSITION_LENGTH_DISTRIBUTION), ",");}
 
+    public void read(String fileName){}
+
     protected void processHeader(String[] header){
         List<String> headerList = Arrays.asList(header);
         countryIndex = headerList.indexOf("Country");

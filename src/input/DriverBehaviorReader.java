@@ -19,6 +19,8 @@ public class DriverBehaviorReader extends CSVReader {
 
     public void read(){super.read(Resources.INSTANCE.getString(Properties.DRIVER_BEHAVIOR_CHARACTERISTICS), ",");}
 
+    public void read(String fileName){}
+
     protected void processHeader(String[] header){
         List<String> headerList = Arrays.asList(header);
         driverIndex = headerList.indexOf("Number");

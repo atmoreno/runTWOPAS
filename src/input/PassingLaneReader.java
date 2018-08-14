@@ -18,6 +18,8 @@ public class PassingLaneReader extends CSVReader {
 
     public void read(){super.read(Resources.INSTANCE.getString(Properties.PASSING_LANE_LENGTH_DISTRIBUTION), ",");}
 
+    public void read(String fileName){}
+
     protected void processHeader(String[] header){
         List<String> headerList = Arrays.asList(header);
         countryIndex = headerList.indexOf("Country");
