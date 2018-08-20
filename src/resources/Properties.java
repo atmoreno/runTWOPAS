@@ -27,5 +27,6 @@ public class Properties {
 
     public static final String SCENARIO_SUMMARY = "scenario.summary";
     public static final String LIST_OF_SCENARIOS = "list.INP";
+    public static final String OUTPUT_SUMMARY = "output.summary";
 
 }

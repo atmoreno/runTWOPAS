@@ -18,6 +18,8 @@ public class DataSet {
     private Map<Integer, DriverSeed> driverSeedMap = new LinkedHashMap<>();
     private Map<Integer, Simulation> simulationMap = new LinkedHashMap<>();
 
+    private Map<Integer, TWOPASoutput> twopasOutputMap = new LinkedHashMap<>();
+
     private final Map<String, Float> outputScenarioMap = new LinkedHashMap<>();
     private final Map<OutputType, Map<Integer, VariableOutput>> outputVariablesMap = new LinkedHashMap<>();
     private final Map<OutputType, String> outputTypeCondition = new LinkedHashMap<>();
@@ -94,5 +96,13 @@ public class DataSet {
 
     public Map<OutputType, String> getOutputTypeCondition() {
         return outputTypeCondition;
+    }
+
+    public Map<Integer, TWOPASoutput> getTwopasOutputMap() {
+        return twopasOutputMap;
+    }
+
+    public void setTwopasOutputMap(Map<Integer, TWOPASoutput> twopasOutputMap) {
+        this.twopasOutputMap = twopasOutputMap;
     }
 }

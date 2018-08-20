@@ -1,5 +1,5 @@
 import data.DataSet;
-import summarizeOutputs.PrepareAndReadOutputs;
+import summarizeOutputs.SummarizeTwopasOutputs;
 
 import java.io.*;
 
@@ -11,9 +11,8 @@ public class ReadTwopasOUT {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        PrepareAndReadOutputs pp = new PrepareAndReadOutputs(args[0]);
+        SummarizeTwopasOutputs pp = new SummarizeTwopasOutputs(args[0]);
         pp.run();
-
 
     }
 
