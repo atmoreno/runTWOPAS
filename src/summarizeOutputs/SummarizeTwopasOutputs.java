@@ -32,6 +32,9 @@ public class SummarizeTwopasOutputs {
             Map<Direction, Map<String, String>> outsputs =  new OUTReader(dataSet).read(fileName);
             TWOPASoutput output = new TWOPASoutput(i++, fileName, outsputs);
             dataSet.getTwopasOutputMap().put(i, output);
+            if (TWOPASutil.isPowerOfTwo(i)){
+                System.out.println("Reading TWOPAS OUT file: " + i);
+            }
         }
     }
 
@@ -39,6 +42,7 @@ public class SummarizeTwopasOutputs {
     private void writeTwopasOutputs(){
 
         int counter = 0;
+        System.out.println("Summarizing TWOPAS OUT");
         String fileSummary = Resources.INSTANCE.getString(Properties.BASE_DIRECTORY) + "/" + Resources.INSTANCE.getString(Properties.OUTPUT_SUMMARY) +
                 Resources.INSTANCE.getString(Properties.LIST_OF_COUNTRIES) + ".csv";
         PrintWriter summaryOfScenarios = new PrintWriter(TWOPASutil.openFileForSequentialWriting(fileSummary, false));

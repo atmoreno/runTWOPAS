@@ -37,7 +37,7 @@ public class GenerateScenarios {
             for (Traffic tt : dataSet.getTrafficMap().values()){
                 for (DriverSeed dd : dataSet.getDriverSeedMap().values()){
                     Simulation ss = new Simulation(counter++,tt, gg, dd);
-                    ss.printINPfile(listOfINPfiles);
+                    ss.printINPfile(listOfINPfiles, counter);
                     ss.printSummary(summaryOfScenarios);
                 }
             }

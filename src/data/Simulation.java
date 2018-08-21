@@ -22,9 +22,11 @@ public class Simulation {
     }
 
 
-    public void printINPfile(PrintWriter listWriter){
+    public void printINPfile(PrintWriter listWriter, int counter){
 
-        System.out.println("    " + this.simulationId + ": writing INP file");
+        if (TWOPASutil.isPowerOfTwo(counter)) {
+            System.out.println("    " + this.simulationId + ": writing INP file");
+        }
         String file = Resources.INSTANCE.getString(Properties.BASE_DIRECTORY) + "/" + Resources.INSTANCE.getString(Properties.OUTPUT_DIRECTORY) +
                 "G" + this.geometry.getGeomId() + "T" + this.traffic.getTrafficId() + "D" +  this.driverSeed.getDriverSeedId() + "_" +
                 this.geometry.getCountry() + "l" + this.geometry.getLength() + "p" + this.geometry.getGeomId() +

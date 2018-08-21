@@ -184,4 +184,9 @@ public class TWOPASutil {
         return size;
 
     }
+
+
+    public static boolean isPowerOfTwo(int x){
+        return x > 0L & (x &x - 1L) == 0L;
+    }
 }

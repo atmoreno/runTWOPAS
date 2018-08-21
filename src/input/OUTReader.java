@@ -42,7 +42,6 @@ public class OUTReader {
                 e.printStackTrace();
             }
         }
-        System.out.println("Read " + fileName);
         return twopasOutputs;
     }
 
