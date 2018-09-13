@@ -23,12 +23,16 @@ public class GenerateTraffic {
                      traffic <= Resources.INSTANCE.getIntArray(Properties.DIRECTIONAL_TRAFFIC_FLOW_RANGE)[1];
                      traffic = traffic + Resources.INSTANCE.getInt(Properties.DIRECTIONAL_TRAFFIC_FLOW_STEP)) {
                     int directionalTraffic = (int) TWOPASutil.randommizeFlow(traffic, Resources.INSTANCE.getInt(Properties.DIRECTIONAL_TRAFFIC_FLOW_STEP));
-                    int opposingTraffic = (int) directionalTraffic * (100 - directionalSplit) / directionalSplit;
-                    float directionalPercentFollowers = obtainEntryPercentFollowers(directionalTraffic);
-                    float opposingPercentFollowers = obtainEntryPercentFollowers(opposingTraffic);
-                    Traffic tt = new Traffic(count++, traffic, directionalTraffic, opposingTraffic, percentTrucks,
-                            directionalSplit, directionalPercentFollowers, opposingPercentFollowers);
-                    dataSet.getTrafficMap().put(count, tt);
+                    if (directionalTraffic < 1500) {
+                        int opposingTraffic = (int) directionalTraffic * (100 - directionalSplit) / directionalSplit;
+                        if (opposingTraffic < 1500) {
+                            float directionalPercentFollowers = obtainEntryPercentFollowers(directionalTraffic);
+                            float opposingPercentFollowers = obtainEntryPercentFollowers(opposingTraffic);
+                            Traffic tt = new Traffic(count++, traffic, directionalTraffic, opposingTraffic, percentTrucks,
+                                    directionalSplit, directionalPercentFollowers, opposingPercentFollowers);
+                            dataSet.getTrafficMap().put(count, tt);
+                        }
+                    }
                 }
             }
         }

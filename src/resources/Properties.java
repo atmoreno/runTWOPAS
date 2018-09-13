@@ -8,6 +8,7 @@ public class Properties {
     public static final String TRANSITION_PROBABILITY = "transition.probability";
     public static final String NUMBER_GEOMETRIES = "number.geometries";
     public static final String RANDOM_SEED = "random.number.seed";
+    public static final String ALL_PASSING_TWOLANE = "all.passing.twolane";
 
     public static final String BASE_DIRECTORY = "base.directory";
     public static final String OUTPUT_DIRECTORY = "output.directory";

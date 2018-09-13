@@ -41,62 +41,72 @@ public class GenerateGeometry {
         boolean nonCriticalTransition = true;
         int sequenceAscendent = 0;
         int sequenceDescendent = 0;
+        if (Resources.INSTANCE.getBoolean(Properties.ALL_PASSING_TWOLANE)) {
+            Map<Integer, Zone> pass1 = new LinkedHashMap<>();
+            Map<Integer, Zone> pass2 = new LinkedHashMap<>();
+            pass1.put(sequenceAscendent++, new Zone(countZones++,sequenceAscendent, Direction.ASCENDENT, 0, roadLength,
+                    PassingCondition.PASSING_ZONE, ZoneCondition.PASSING_LANE));
+            pass2.put(sequenceDescendent++, new Zone(countZones++, sequenceDescendent, Direction.DESCENDENT, 0, roadLength,
+                    PassingCondition.PASSING_ZONE, ZoneCondition.PASSING_LANE));
+            passingConditions.put(Direction.ASCENDENT, pass1);
+            passingConditions.put(Direction.DESCENDENT, pass2);
+        } else {
+            //first iteration
+            float lengthPassingLane = TWOPASutil.select(dataSet.getPassingLaneLengths().get(country));
+            TransitionType transition = selectTransitionType(nonCriticalTransition, country);
+            float lengthTransition = TWOPASutil.select(dataSet.getTransitionLengths().get(country).get(transition));
+            Map<Integer, Zone> pass1 = new LinkedHashMap<>();
+            pass1.put(sequenceAscendent++, new Zone(countZones++, sequenceAscendent, Direction.ASCENDENT, length, lengthTransition,
+                    PassingCondition.NO_PASSING, TransitionType.translateZoneCondition(transition)));
+            passingConditions.put(Direction.ASCENDENT, pass1);
+            passingConditions.get(Direction.ASCENDENT).put(sequenceAscendent++, new Zone(countZones++, sequenceAscendent,
+                    Direction.ASCENDENT, length + lengthTransition, lengthPassingLane, PassingCondition.PASSING_LANE, ZoneCondition.PASSING_LANE));
+            Map<Integer, Zone> pass2 = new LinkedHashMap<>();
+            pass2.put(sequenceDescendent++, new Zone(countZones++, sequenceDescendent, Direction.DESCENDENT,
+                    0, lengthPassingLane + lengthTransition, PassingCondition.NO_PASSING, ZoneCondition.SINGLE_LANE));
+            passingConditions.put(Direction.DESCENDENT, pass2);
+            nonCriticalTransition = false;
+            length = length + lengthTransition + lengthPassingLane;
 
-        //first iteration
-        float lengthPassingLane = TWOPASutil.select(dataSet.getPassingLaneLengths().get(country));
-        TransitionType transition = selectTransitionType(nonCriticalTransition, country);
-        float lengthTransition = TWOPASutil.select(dataSet.getTransitionLengths().get(country).get(transition));
-        Map<Integer, Zone> pass1 = new LinkedHashMap<>();
-        pass1.put(sequenceAscendent++,new Zone(countZones++, sequenceAscendent, Direction.ASCENDENT, length, lengthTransition,
-                PassingCondition.NO_PASSING, TransitionType.translateZoneCondition(transition)));
-        passingConditions.put(Direction.ASCENDENT, pass1);
-        passingConditions.get(Direction.ASCENDENT).put(sequenceAscendent++,new Zone(countZones++, sequenceAscendent,
-                Direction.ASCENDENT, length + lengthTransition, lengthPassingLane, PassingCondition.PASSING_LANE, ZoneCondition.PASSING_LANE));
-        Map<Integer, Zone> pass2 = new LinkedHashMap<>();
-        pass2.put(sequenceDescendent++,new Zone(countZones++, sequenceDescendent, Direction.DESCENDENT,
-                0,lengthPassingLane + lengthTransition, PassingCondition.NO_PASSING, ZoneCondition.SINGLE_LANE));
-        passingConditions.put(Direction.DESCENDENT,pass2);
-        nonCriticalTransition = false;
-        length = length + lengthTransition + lengthPassingLane;
-
-        //next iterations
-        while (!exceedingLength) {
-            lengthPassingLane = TWOPASutil.select(dataSet.getPassingLaneLengths().get(country));
-            transition = selectTransitionType(nonCriticalTransition, country);
-            lengthTransition = TWOPASutil.select(dataSet.getTransitionLengths().get(country).get(transition));
-            if (length + lengthTransition + lengthPassingLane < roadLength){
-                if (nonCriticalTransition) {
-                    //passing lane starts in my direction of analysis
-                    passingConditions.get(Direction.ASCENDENT).put(sequenceAscendent++,new Zone(countZones++, sequenceAscendent,
-                            Direction.ASCENDENT, length, lengthTransition, PassingCondition.NO_PASSING, TransitionType.translateZoneCondition(transition)));
-                    passingConditions.get(Direction.ASCENDENT).put(sequenceAscendent++,new Zone(countZones++, sequenceAscendent,
-                            Direction.ASCENDENT, length + lengthTransition, lengthPassingLane, PassingCondition.PASSING_LANE,ZoneCondition.PASSING_LANE));
-                    passingConditions.get(Direction.DESCENDENT).put(sequenceDescendent++,new Zone(countZones++, sequenceDescendent,
-                            Direction.DESCENDENT, length, lengthPassingLane + lengthTransition, PassingCondition.NO_PASSING, ZoneCondition.SINGLE_LANE));
-                    nonCriticalTransition = false;
+            //next iterations
+            while (!exceedingLength) {
+                lengthPassingLane = TWOPASutil.select(dataSet.getPassingLaneLengths().get(country));
+                transition = selectTransitionType(nonCriticalTransition, country);
+                lengthTransition = TWOPASutil.select(dataSet.getTransitionLengths().get(country).get(transition));
+                if (length + lengthTransition + lengthPassingLane < roadLength) {
+                    if (nonCriticalTransition) {
+                        //passing lane starts in my direction of analysis
+                        passingConditions.get(Direction.ASCENDENT).put(sequenceAscendent++, new Zone(countZones++, sequenceAscendent,
+                                Direction.ASCENDENT, length, lengthTransition, PassingCondition.NO_PASSING, TransitionType.translateZoneCondition(transition)));
+                        passingConditions.get(Direction.ASCENDENT).put(sequenceAscendent++, new Zone(countZones++, sequenceAscendent,
+                                Direction.ASCENDENT, length + lengthTransition, lengthPassingLane, PassingCondition.PASSING_LANE, ZoneCondition.PASSING_LANE));
+                        passingConditions.get(Direction.DESCENDENT).put(sequenceDescendent++, new Zone(countZones++, sequenceDescendent,
+                                Direction.DESCENDENT, length, lengthPassingLane + lengthTransition, PassingCondition.NO_PASSING, ZoneCondition.SINGLE_LANE));
+                        nonCriticalTransition = false;
+                    } else {
+                        //passing lane starts in the other direction
+                        passingConditions.get(Direction.ASCENDENT).put(sequenceAscendent++, new Zone(countZones++, sequenceAscendent,
+                                Direction.ASCENDENT, length, lengthTransition + lengthPassingLane, PassingCondition.NO_PASSING, ZoneCondition.SINGLE_LANE));
+                        passingConditions.get(Direction.DESCENDENT).put(sequenceDescendent++, new Zone(countZones++, sequenceDescendent,
+                                Direction.DESCENDENT, length, lengthTransition, PassingCondition.NO_PASSING, TransitionType.translateZoneCondition(transition)));
+                        passingConditions.get(Direction.DESCENDENT).put(sequenceDescendent++, new Zone(countZones++, sequenceDescendent,
+                                Direction.DESCENDENT, length + lengthTransition, lengthPassingLane, PassingCondition.PASSING_LANE, ZoneCondition.PASSING_LANE));
+                        nonCriticalTransition = true;
+                    }
+                    length = length + lengthTransition + lengthPassingLane;
                 } else {
-                    //passing lane starts in the other direction
-                    passingConditions.get(Direction.ASCENDENT).put(sequenceAscendent++,new Zone(countZones++, sequenceAscendent,
-                            Direction.ASCENDENT, length, lengthTransition + lengthPassingLane, PassingCondition.NO_PASSING, ZoneCondition.SINGLE_LANE));
-                    passingConditions.get(Direction.DESCENDENT).put(sequenceDescendent++,new Zone(countZones++, sequenceDescendent,
-                            Direction.DESCENDENT, length , lengthTransition, PassingCondition.NO_PASSING, TransitionType.translateZoneCondition(transition)));
-                    passingConditions.get(Direction.DESCENDENT).put(sequenceDescendent++,new Zone(countZones++, sequenceDescendent,
-                            Direction.DESCENDENT, length + lengthTransition, lengthPassingLane, PassingCondition.PASSING_LANE, ZoneCondition.PASSING_LANE));
-                    nonCriticalTransition = true;
+                    exceedingLength = true;
+                    passingConditions.get(Direction.ASCENDENT).put(sequenceAscendent++, new Zone(countZones++, sequenceAscendent,
+                            Direction.ASCENDENT, length, roadLength - length, PassingCondition.NO_PASSING, TransitionType.translateZoneCondition(transition)));
+                    passingConditions.get(Direction.DESCENDENT).put(sequenceDescendent++, new Zone(countZones++, sequenceDescendent,
+                            Direction.DESCENDENT, roadLength, roadLength - length, PassingCondition.NO_PASSING, TransitionType.translateZoneCondition(transition)));
                 }
-                length = length + lengthTransition + lengthPassingLane;
-            } else {
-                exceedingLength = true;
-                passingConditions.get(Direction.ASCENDENT).put(sequenceAscendent++,new Zone(countZones++, sequenceAscendent,
-                        Direction.ASCENDENT, length, roadLength - length, PassingCondition.NO_PASSING, TransitionType.translateZoneCondition(transition)));
-                passingConditions.get(Direction.DESCENDENT).put(sequenceDescendent++,new Zone(countZones++, sequenceDescendent,
-                        Direction.DESCENDENT, roadLength, roadLength - length, PassingCondition.NO_PASSING, TransitionType.translateZoneCondition(transition)));
             }
-        }
 
-        //reorder passing restrictions in the descendent direction
-        for (Zone zz : passingConditions.get(Direction.DESCENDENT).values()){
-            zz.setSequence(passingConditions.get(Direction.DESCENDENT).size() + 1 - zz.getSequence());
+            //reorder passing restrictions in the descendent direction
+            for (Zone zz : passingConditions.get(Direction.DESCENDENT).values()) {
+                zz.setSequence(passingConditions.get(Direction.DESCENDENT).size() + 1 - zz.getSequence());
+            }
         }
         return passingConditions;
     }
