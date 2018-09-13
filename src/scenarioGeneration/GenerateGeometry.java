@@ -42,6 +42,7 @@ public class GenerateGeometry {
         int sequenceAscendent = 0;
         int sequenceDescendent = 0;
         if (Resources.INSTANCE.getBoolean(Properties.ALL_PASSING_TWOLANE)) {
+
             Map<Integer, Zone> pass1 = new LinkedHashMap<>();
             Map<Integer, Zone> pass2 = new LinkedHashMap<>();
             pass1.put(sequenceAscendent++, new Zone(countZones++,sequenceAscendent, Direction.ASCENDENT, 0, roadLength,
@@ -50,6 +51,7 @@ public class GenerateGeometry {
                     PassingCondition.PASSING_ZONE, ZoneCondition.PASSING_LANE));
             passingConditions.put(Direction.ASCENDENT, pass1);
             passingConditions.put(Direction.DESCENDENT, pass2);
+
         } else {
             //first iteration
             float lengthPassingLane = TWOPASutil.select(dataSet.getPassingLaneLengths().get(country));
